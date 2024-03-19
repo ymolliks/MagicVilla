@@ -1,0 +1,14 @@
+run = "dotnet watch run --project /home/runner/MagicVilla/MagicVilla_VillaAPI/MagicVilla_VillaAPI.csproj --urls=http://0.0.0.0:8080"
+
+[packager]
+language = "dotnet"
+
+[packager.features]
+packageSearch = true
+
+[nix]
+channel = "stable-23_11"
+
+[[ports]]
+localPort = 8080
+externalPort = 80
