@@ -51,6 +51,12 @@ namespace MagicVilla_VillaAPI.Controllers
                 return BadRequest(villa);
             }
 
+            if(VillaStore.VillaList.Any(v => v.Name == villa.Name))
+            {
+                ModelState.AddModelError("AlreadyExistsError", "Villa with this name already exists");
+                return BadRequest(ModelState);
+            }
+            
             if(villa.Id > 0)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
