@@ -1,6 +1,7 @@
 { pkgs }: {
     deps = [
+        pkgs.postgresql
         pkgs.nodePackages.prettier
-        pkgs.dotnet-sdk_7
+        pkgs.dotnet-sdk_8
     ];
 }

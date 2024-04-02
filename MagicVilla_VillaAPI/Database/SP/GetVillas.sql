@@ -1,0 +1,5 @@
+CREATE PROCEDURE GetVillas
+AS
+BEGIN
+    SELECT * FROM Villas;
+END;
