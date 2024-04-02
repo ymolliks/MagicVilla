@@ -8,6 +8,7 @@ using MagicVilla_VillaAPI.Models.DTO;
 using Newtonsoft.Json;
 using MagicVilla_VillaAPI.Data;
 using Microsoft.AspNetCore.JsonPatch;
+using MagicVilla_VillaAPI.Data;
 
 namespace MagicVilla_VillaAPI.Controllers
 {
@@ -15,10 +16,18 @@ namespace MagicVilla_VillaAPI.Controllers
     [Route("villa")]
     public class VillaAPIController : ControllerBase
     {
+        private readonly IDapperDbContext _db;
+        
+        public VillaAPIController(IDapperDbContext db)
+        {
+            _db = db;
+        }
+        
         [HttpGet]
         public ActionResult<IEnumerable<VillaDTO>> GetVillas()
         {
-            return Ok(VillaStore.VillaList);
+            var villas = _db.GetInfoList<VillaDTO>(null, "GetVillas");
+            return Ok(villas);
         }
 
         [HttpGet("{id:int}", Name = "GetVilla")]
@@ -32,13 +41,18 @@ namespace MagicVilla_VillaAPI.Controllers
                 return BadRequest();
             }
             
-            var villa = VillaStore.VillaList.FirstOrDefault(v => v.Id == id);
+            var villa = _db.GetInfo<VillaDTO>(new
+            {
+                Id = id
+            }, "GetVillaById");
+
+            
             if(villa == null)
             {
                 return NotFound();
             }
             
-            return Ok(VillaStore.VillaList.FirstOrDefault(v => v.Id == id));    
+            return Ok(villa);    
         }
 
         [HttpPost]
