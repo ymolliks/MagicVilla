@@ -26,9 +26,15 @@ namespace MagicVilla_VillaAPI.Data
             return result;
         }
 
-        public void BasicOperation(object obj, string sp)
+        public void ExecuteNonQuery(object obj, string sp)
         {
-            db.Query(sp, obj, commandType: CommandType.StoredProcedure);
+            db.Execute(sp, obj, commandType: CommandType.StoredProcedure);
+        }
+        
+        public T ExecuteScalar<T>(object obj, string sp)
+        {
+            var result = db.ExecuteScalar<T>(sp, obj, commandType: CommandType.StoredProcedure);
+            return result;
         }
     }
 }

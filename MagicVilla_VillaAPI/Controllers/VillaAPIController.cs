@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using MagicVilla_VillaAPI.Data;
 using Microsoft.AspNetCore.JsonPatch;
 using MagicVilla_VillaAPI.Data;
+using MagicVilla_VillaAPI.Services;
 
 namespace MagicVilla_VillaAPI.Controllers
 {
@@ -17,16 +18,19 @@ namespace MagicVilla_VillaAPI.Controllers
     public class VillaAPIController : ControllerBase
     {
         private readonly IDapperDbContext _db;
+        private readonly IVillaService _villaService;
         
-        public VillaAPIController(IDapperDbContext db)
+        public VillaAPIController(IDapperDbContext db,
+                                  IVillaService villaService)
         {
             _db = db;
+            _villaService = villaService;
         }
         
         [HttpGet]
         public ActionResult<IEnumerable<VillaDTO>> GetVillas()
         {
-            var villas = _db.GetInfoList<VillaDTO>(null, "GetVillas");
+            var villas = _villaService.GetAllVillas();
             return Ok(villas);
         }
 
@@ -40,12 +44,8 @@ namespace MagicVilla_VillaAPI.Controllers
             {
                 return BadRequest();
             }
-            
-            var villa = _db.GetInfo<VillaDTO>(new
-            {
-                Id = id
-            }, "GetVillaById");
 
+            var villa = _villaService.GetVillaById(id);
             
             if(villa == null)
             {
@@ -66,21 +66,21 @@ namespace MagicVilla_VillaAPI.Controllers
                 return BadRequest(villa);
             }
 
-            if(VillaStore.VillaList.Any(v => v.Name == villa.Name))
-            {
-                ModelState.AddModelError("AlreadyExistsError", "Villa with this name already exists");
-                return BadRequest(ModelState);
-            }
-            
             if(villa.Id > 0)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            villa.Id = VillaStore.VillaList.OrderByDescending(v => v.Id).FirstOrDefault().Id + 1;
-            VillaStore.VillaList.Add(villa);
-            
-            return CreatedAtRoute("GetVilla", new { id = villa.Id }, villa);
+            try
+            {
+                villa.Id = _villaService.CreateVilla(villa);
+                return CreatedAtRoute("GetVilla", new { id = villa.Id }, villa);
+            }
+            catch(ArgumentException ex)
+            {
+                ModelState.AddModelError("AlreadyExistsError", ex.Message);
+                return BadRequest(ModelState);
+            }
         }
 
         [HttpDelete("{id:int}", Name = "DeleteVilla")]

@@ -17,7 +17,7 @@ namespace MagicVilla_VillaAPI.Models
         
         public string Details { get; set; }
         
-        public double Rate { get; set; }
+        public double? Rate { get; set; }
         
         public string ImageURL { get; set; }
         
@@ -25,6 +25,6 @@ namespace MagicVilla_VillaAPI.Models
         
         public DateTime CreatedDate { get; set; }
         
-        public DateTime UpdatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
     }
 }
