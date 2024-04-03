@@ -19,5 +19,7 @@ namespace MagicVilla_VillaAPI.Models.DTO
         public string ImageURL { get; set; }
         
         public string Amenity { get; set; }
+
+        public float Rate { get; set; }
     }
 }

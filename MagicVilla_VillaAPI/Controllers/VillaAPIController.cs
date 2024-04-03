@@ -93,15 +93,17 @@ namespace MagicVilla_VillaAPI.Controllers
             {
                 return BadRequest();
             }
-
-            var villa = VillaStore.VillaList.FirstOrDefault(v => v.Id == id);
-            if(villa == null)
+            
+            try
             {
-                return NotFound();
+                _villaService.DeleteVilla(id);
+                return NoContent();
             }
-
-            VillaStore.VillaList.Remove(villa);            
-            return NoContent();
+            catch(ArgumentException ex)
+            {
+                ModelState.AddModelError("NotFoundError", ex.Message);
+                return NotFound(ModelState);
+            }
         }
 
         [HttpPut("{id:int}", Name = "UpdateVilla")]
@@ -115,16 +117,16 @@ namespace MagicVilla_VillaAPI.Controllers
                 return BadRequest();
             }
 
-            var v = VillaStore.VillaList.FirstOrDefault(v => v.Id == id);
-            if(v == null)
+            try
             {
-                return NotFound();
+                _villaService.UpdateVilla(id, villa);
+                return NoContent();
             }
-
-            v.Name = villa.Name;
-            v.Occupancy = villa.Occupancy;
-            v.Sqft = villa.Sqft;
-            return NoContent();
+            catch(ArgumentException ex)
+            {
+                ModelState.AddModelError("NotFoundError", ex.Message);
+                return NotFound(ModelState);
+            }
         }
 
         [HttpPatch("{id:int}", Name = "UpdatePartialVilla")]
@@ -137,14 +139,16 @@ namespace MagicVilla_VillaAPI.Controllers
                 return BadRequest();
             }
 
-            var villa = VillaStore.VillaList.FirstOrDefault(v => v.Id == id);
-            if(villa == null)
+            try
             {
-                return NotFound();
+                _villaService.UpdatePartialVilla(id, patch);
+                return NoContent();
             }
-
-            patch.ApplyTo(villa);
-            return NoContent();
+            catch(ArgumentException ex)
+            {
+                ModelState.AddModelError("NotFoundError", ex.Message);
+                return NotFound(ModelState);
+            }
         }
     }
 }

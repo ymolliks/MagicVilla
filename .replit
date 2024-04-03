@@ -12,3 +12,7 @@ channel = "stable-23_11"
 [[ports]]
 localPort = 8080
 externalPort = 80
+
+[deployment]
+run = ["sh", "-c", "dotnet run --project MagicVilla_VillaAPI/MagicVilla_VillaAPI.csproj --urls=http://0.0.0.0:8080"]
+deploymentTarget = "cloudrun"

@@ -8,4 +8,6 @@ public interface IVillaRepository
     VillaDTO GetVillaById(int id);
     VillaDTO GetVillaByName(string name);
     int CreateVilla(VillaDTO villa);
+    void DeleteVilla(int id);
+    void UpdateVilla(int id, VillaDTO villa);
 }
