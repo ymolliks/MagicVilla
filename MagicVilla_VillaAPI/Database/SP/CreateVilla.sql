@@ -1,4 +1,4 @@
-CREATE PROCEDURE InsertVilla
+CREATE PROCEDURE CreateVilla
 (
     @name NVARCHAR(255),
     @sqft INT,
@@ -7,8 +7,7 @@ CREATE PROCEDURE InsertVilla
     @rate FLOAT,
     @imageURL NVARCHAR(MAX),
     @amenity NVARCHAR(MAX),
-    @createdDate DATETIME,
-    @updatedDate DATETIME
+    @createdDate DATETIME
 )
 AS
 BEGIN    
@@ -22,8 +21,7 @@ BEGIN
         Rate, 
         ImageURL, 
         Amenity, 
-        CreatedDate, 
-        UpdatedDate
+        CreatedDate
     )
     VALUES (
         @name, 
@@ -33,8 +31,7 @@ BEGIN
         @rate, 
         @imageURL, 
         @amenity, 
-        @createdDate, 
-        @updatedDate
+        @createdDate
     );
     SELECT SCOPE_IDENTITY() as Id;
 END;

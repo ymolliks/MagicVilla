@@ -7,8 +7,8 @@ public interface IVillaService
 {
     IEnumerable<VillaDTO> GetAllVillas();
     VillaDTO GetVillaById(int id);
-    int CreateVilla(VillaDTO villa);
+    int CreateVilla(CreateVillaDTO villa);
     void DeleteVilla(int id);
-    void UpdateVilla(int id, VillaDTO villa);
-    void UpdatePartialVilla(int id, JsonPatchDocument<VillaDTO> patch);
+    void UpdateVilla(int id, UpdateVillaDTO villa);
+    void UpdatePartialVilla(int id, JsonPatchDocument<UpdateVillaDTO> patch);
 }

@@ -1,7 +1,7 @@
 using MagicVilla_VillaAPI.Data;
 using MagicVilla_VillaAPI.Services;
 using MagicVilla_VillaAPI.Repositories;
-
+using MagicVilla_VillaAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,10 +11,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IDapperDbContext, DapperDbContext>();
 builder.Services.AddScoped<IVillaService, VillaService>();
 builder.Services.AddScoped<IVillaRepository, VillaRepository>();
-        
+builder.Services.AddAutoMapper(typeof(MappingConfig));
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

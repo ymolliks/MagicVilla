@@ -1,4 +1,4 @@
-run = "dotnet watch run --project /home/runner/MagicVilla/MagicVilla_VillaAPI/MagicVilla_VillaAPI.csproj --urls=http://0.0.0.0:8080"
+run = "dotnet watch run --project /home/runner/MagicVilla/MagicVilla_VillaAPI/MagicVilla_VillaAPI.csproj --urls=http://0.0.0.0:5150"
 
 [packager]
 language = "dotnet"
@@ -10,9 +10,9 @@ packageSearch = true
 channel = "stable-23_11"
 
 [[ports]]
-localPort = 8080
+localPort = 5150
 externalPort = 80
 
 [deployment]
-run = ["sh", "-c", "dotnet run --project MagicVilla_VillaAPI/MagicVilla_VillaAPI.csproj --urls=http://0.0.0.0:8080"]
+run = ["sh", "-c", "dotnet run --project MagicVilla_VillaAPI/MagicVilla_VillaAPI.csproj"]
 deploymentTarget = "cloudrun"

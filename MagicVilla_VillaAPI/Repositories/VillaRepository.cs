@@ -1,6 +1,5 @@
 using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Data;
-using MagicVilla_VillaAPI.Models.DTO;
 
 namespace MagicVilla_VillaAPI.Repositories;
 
@@ -13,15 +12,15 @@ public class VillaRepository : IVillaRepository
         _db = db;
     }
 
-    public IEnumerable<VillaDTO> GetAllVillas()
+    public IEnumerable<Villa> GetAllVillas()
     {
-        var villas = _db.GetInfoList<VillaDTO>(null, "GetVillas");
+        var villas = _db.GetInfoList<Villa>(null, "GetVillas");
         return villas;
     }
 
-    public VillaDTO GetVillaById(int id)
+    public Villa GetVillaById(int id)
     {
-        var villa = _db.GetInfo<VillaDTO>(
+        var villa = _db.GetInfo<Villa>(
             new 
             {
                 id = id
@@ -32,13 +31,13 @@ public class VillaRepository : IVillaRepository
         return villa;
     }
 
-    public VillaDTO GetVillaByName(string name)
+    public Villa GetVillaByName(string name)
     {
-        var villa = _db.GetInfo<VillaDTO>(new {name = name}, "GetVillaByName");
+        var villa = _db.GetInfo<Villa>(new {name = name}, "GetVillaByName");
         return villa;
     }
 
-    public int CreateVilla(VillaDTO villa)
+    public int CreateVilla(Villa villa)
     {
         var Id = _db.ExecuteScalar<int>(
             new
@@ -47,13 +46,12 @@ public class VillaRepository : IVillaRepository
                 Sqft = villa.Sqft,
                 Occupancy = villa.Occupancy,
                 Details = villa.Details,
-                Rate = 0, 
+                Rate = villa.Rate, 
                 ImageURL = villa.ImageURL,
                 Amenity = villa.Amenity,
-                CreatedDate = DateTime.Now,
-                UpdatedDate = (float?)null
+                CreatedDate = DateTime.Now
             },
-            "InsertVilla"
+            "CreateVilla"
         );
         return Id;
     }
@@ -69,7 +67,7 @@ public class VillaRepository : IVillaRepository
         );
     }
 
-    public void UpdateVilla(int id, VillaDTO villa)
+    public void UpdateVilla(int id, Villa villa)
     {
         _db.ExecuteNonQuery(
             new
