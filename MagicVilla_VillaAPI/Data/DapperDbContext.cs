@@ -11,7 +11,7 @@ namespace MagicVilla_VillaAPI.Data
         
         public DapperDbContext(IConfiguration configuration)
         {
-            db = new SqlConnection(configuration.GetConnectionString("cn1"));
+            db = new SqlConnection(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
         }
 
         public ResponseObjectType GetInfo<ResponseObjectType>(object obj, string sp)
