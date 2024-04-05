@@ -9,7 +9,6 @@ using MagicVilla_VillaAPI.Models.DTO;
 using Newtonsoft.Json;
 using MagicVilla_VillaAPI.Data;
 using Microsoft.AspNetCore.JsonPatch;
-using MagicVilla_VillaAPI.Data;
 using MagicVilla_VillaAPI.Services;
 
 namespace MagicVilla_VillaAPI.Controllers
