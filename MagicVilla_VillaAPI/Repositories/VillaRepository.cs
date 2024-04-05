@@ -24,7 +24,7 @@ public class VillaRepository : IVillaRepository
         var villa = await _db.GetInfoAsync<Villa>(
             new 
             {
-                id = id
+                id
             }, 
             "GetVillaById"
         );
@@ -34,7 +34,7 @@ public class VillaRepository : IVillaRepository
 
     public async Task<Villa> GetVillaByName(string name)
     {
-        var villa = await _db.GetInfoAsync<Villa>(new {name = name}, "GetVillaByName");
+        var villa = await _db.GetInfoAsync<Villa>(new {name}, "GetVillaByName");
         return villa;
     }
 
@@ -62,7 +62,7 @@ public class VillaRepository : IVillaRepository
         await _db.ExecuteNonQueryAsync(
             new
             {
-                id = id
+                id
             },
             "DeleteVilla"
         );
