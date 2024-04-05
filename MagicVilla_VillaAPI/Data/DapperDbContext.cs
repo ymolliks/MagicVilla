@@ -2,6 +2,7 @@ using System.Data;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using MagicVilla_VillaAPI.Models;
+using System.Threading.Tasks;
 
 namespace MagicVilla_VillaAPI.Data
 {
@@ -9,31 +10,31 @@ namespace MagicVilla_VillaAPI.Data
     {
         private readonly IDbConnection db;
         
-        public DapperDbContext(IConfiguration configuration)
+        public DapperDbContext()
         {
             db = new SqlConnection(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
         }
 
-        public ResponseObjectType GetInfo<ResponseObjectType>(object obj, string sp)
+        public async Task<ResponseObjectType> GetInfoAsync<ResponseObjectType>(object obj, string sp)
         {
-            var result = db.QueryFirstOrDefault<ResponseObjectType>(sp, obj, commandType: CommandType.StoredProcedure);
+            var result = await db.QueryFirstOrDefaultAsync<ResponseObjectType>(sp, obj, commandType: CommandType.StoredProcedure);
             return result;
         }
 
-        public IEnumerable<ResponseObjectType> GetInfoList<ResponseObjectType>(object obj, string sp)
+        public async Task<IEnumerable<ResponseObjectType>> GetInfoListAsync<ResponseObjectType>(object obj, string sp)
         {
-            var result = db.Query<ResponseObjectType>(sp, obj, commandType: CommandType.StoredProcedure);
+            var result = await db.QueryAsync<ResponseObjectType>(sp, obj, commandType: CommandType.StoredProcedure);
             return result;
         }
 
-        public void ExecuteNonQuery(object obj, string sp)
+        public async Task ExecuteNonQueryAsync(object obj, string sp)
         {
-            db.Execute(sp, obj, commandType: CommandType.StoredProcedure);
+            await db.ExecuteAsync(sp, obj, commandType: CommandType.StoredProcedure);
         }
         
-        public T ExecuteScalar<T>(object obj, string sp)
+        public async Task<T> ExecuteScalarAsync<T>(object obj, string sp)
         {
-            var result = db.ExecuteScalar<T>(sp, obj, commandType: CommandType.StoredProcedure);
+            var result = await db.ExecuteScalarAsync<T>(sp, obj, commandType: CommandType.StoredProcedure);
             return result;
         }
     }

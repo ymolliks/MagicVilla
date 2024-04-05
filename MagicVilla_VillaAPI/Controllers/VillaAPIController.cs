@@ -32,9 +32,9 @@ namespace MagicVilla_VillaAPI.Controllers
         }
         
         [HttpGet]
-        public ActionResult<IEnumerable<VillaDTO>> GetVillas()
+        public async Task<ActionResult<IEnumerable<VillaDTO>>> GetVillas()
         {
-            var villas = _villaService.GetAllVillas();
+            var villas = await _villaService.GetAllVillas();
             return Ok(villas);
         }
 
@@ -42,14 +42,14 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<VillaDTO> GetVilla(int id)
+        public async Task<ActionResult<VillaDTO>> GetVilla(int id)
         {
             if(id == 0)
             {
                 return BadRequest();
             }
 
-            var villa = _villaService.GetVillaById(id);
+            var villa = await _villaService.GetVillaById(id);
             
             if(villa == null)
             {
@@ -63,7 +63,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<VillaDTO> CreateVilla([FromBody] CreateVillaDTO createDTO)
+        public async Task<ActionResult<VillaDTO>> CreateVilla([FromBody] CreateVillaDTO createDTO)
         {
             if(createDTO == null)
             {
@@ -73,7 +73,7 @@ namespace MagicVilla_VillaAPI.Controllers
             try
             {
                 var villaDTO = _mapper.Map<VillaDTO>(createDTO);
-                villaDTO.Id = _villaService.CreateVilla(createDTO);
+                villaDTO.Id = await _villaService.CreateVilla(createDTO);
                 return CreatedAtRoute("GetVilla", new { id = villaDTO.Id }, villaDTO);
             }
             catch(ArgumentException ex)
@@ -87,7 +87,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult DeleteVilla(int id)
+        public async Task<IActionResult> DeleteVilla(int id)
         {
             if(id == 0)
             {
@@ -96,7 +96,7 @@ namespace MagicVilla_VillaAPI.Controllers
             
             try
             {
-                _villaService.DeleteVilla(id);
+                await _villaService.DeleteVilla(id);
                 return NoContent();
             }
             catch(ArgumentException ex)
@@ -110,7 +110,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult UpdateVilla(int id, [FromBody] UpdateVillaDTO updateDTO)
+        public async Task<IActionResult> UpdateVilla(int id, [FromBody] UpdateVillaDTO updateDTO)
         {
             if(updateDTO == null || id != updateDTO.Id)
             {
@@ -124,7 +124,7 @@ namespace MagicVilla_VillaAPI.Controllers
             
             try
             {
-                _villaService.UpdateVilla(id, updateDTO);
+                await _villaService.UpdateVilla(id, updateDTO);
                 return NoContent();
             }
             catch(ArgumentException ex)
@@ -137,7 +137,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [HttpPatch("{id:int}", Name = "UpdatePartialVilla")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult UpdatePartialVilla(int id, JsonPatchDocument<UpdateVillaDTO> patch)
+        public async Task<IActionResult> UpdatePartialVilla(int id, JsonPatchDocument<UpdateVillaDTO> patch)
         {
             if(id == 0 || patch == null)
             {
@@ -146,7 +146,7 @@ namespace MagicVilla_VillaAPI.Controllers
 
             try
             {
-                _villaService.UpdatePartialVilla(id, patch);
+                await _villaService.UpdatePartialVilla(id, patch);
                 return NoContent();
             }
             catch(ArgumentException ex)

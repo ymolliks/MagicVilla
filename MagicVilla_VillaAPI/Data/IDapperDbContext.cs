@@ -1,10 +1,12 @@
+using System.Threading.Tasks;
+
 namespace MagicVilla_VillaAPI.Data
 {
     public interface IDapperDbContext
     {
-        void ExecuteNonQuery(object obj, string sp);
-        ResponseObjectType GetInfo<ResponseObjectType>(object obj, string sp);
-        IEnumerable<ResponseObjectType> GetInfoList<ResponseObjectType>(object obj, string sp);
-        T ExecuteScalar<T>(object obj, string sp);
+        Task ExecuteNonQueryAsync(object obj, string sp);
+        Task<ResponseObjectType> GetInfoAsync<ResponseObjectType>(object obj, string sp);
+        Task<IEnumerable<ResponseObjectType>> GetInfoListAsync<ResponseObjectType>(object obj, string sp);
+        Task<T> ExecuteScalarAsync<T>(object obj, string sp);
     }
 }

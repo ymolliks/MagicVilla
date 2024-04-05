@@ -1,5 +1,6 @@
 using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Data;
+using System.Threading.Tasks;
 
 namespace MagicVilla_VillaAPI.Repositories;
 
@@ -12,15 +13,15 @@ public class VillaRepository : IVillaRepository
         _db = db;
     }
 
-    public IEnumerable<Villa> GetAllVillas()
+    public async Task<IEnumerable<Villa>> GetAllVillas()
     {
-        var villas = _db.GetInfoList<Villa>(null, "GetVillas");
+        var villas = await _db.GetInfoListAsync<Villa>(null, "GetVillas");
         return villas;
     }
 
-    public Villa GetVillaById(int id)
+    public async Task<Villa> GetVillaById(int id)
     {
-        var villa = _db.GetInfo<Villa>(
+        var villa = await _db.GetInfoAsync<Villa>(
             new 
             {
                 id = id
@@ -31,15 +32,15 @@ public class VillaRepository : IVillaRepository
         return villa;
     }
 
-    public Villa GetVillaByName(string name)
+    public async Task<Villa> GetVillaByName(string name)
     {
-        var villa = _db.GetInfo<Villa>(new {name = name}, "GetVillaByName");
+        var villa = await _db.GetInfoAsync<Villa>(new {name = name}, "GetVillaByName");
         return villa;
     }
 
-    public int CreateVilla(Villa villa)
+    public async Task<int> CreateVilla(Villa villa)
     {
-        var Id = _db.ExecuteScalar<int>(
+        var Id = await _db.ExecuteScalarAsync<int>(
             new
             {
                 Name = villa.Name,
@@ -56,9 +57,9 @@ public class VillaRepository : IVillaRepository
         return Id;
     }
 
-    public void DeleteVilla(int id)
+    public async Task DeleteVilla(int id)
     {
-        _db.ExecuteNonQuery(
+        await _db.ExecuteNonQueryAsync(
             new
             {
                 id = id
@@ -67,9 +68,9 @@ public class VillaRepository : IVillaRepository
         );
     }
 
-    public void UpdateVilla(int id, Villa villa)
+    public async Task UpdateVilla(int id, Villa villa)
     {
-        _db.ExecuteNonQuery(
+        await _db.ExecuteNonQueryAsync(
             new
             {
                 Id = id,
