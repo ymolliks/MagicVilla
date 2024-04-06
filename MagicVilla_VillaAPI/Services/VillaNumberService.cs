@@ -25,4 +25,21 @@ public class VillaNumberService : IVillaNumberService
         var villaNumbers = await _villaNumberRepository.GetAllVillaNumbers();
         return _mapper.Map<IEnumerable<VillaNumberDTO>>(villaNumbers);
     }
+
+    public async Task<VillaNumberDTO> GetVillaNumber(int id)
+    {
+        var villaNumber = await _villaNumberRepository.GetVillaNumber(id);
+        return _mapper.Map<VillaNumberDTO>(villaNumber);
+    }
+
+    public async Task CreateVillaNumber(CreateVillaNumberDTO villaNumberCreate)
+    {
+        var existingVillaNumber = await _villaNumberRepository.GetVillaNumber(villaNumberCreate.VillaNo);
+        if(existingVillaNumber != null)
+        {
+            throw new ArgumentException("VillaNumber already exists");
+        }
+        var villaNumber = _mapper.Map<VillaNumber>(villaNumberCreate);
+        await _villaNumberRepository.CreateVillaNumber(villaNumber);
+    }
 }
