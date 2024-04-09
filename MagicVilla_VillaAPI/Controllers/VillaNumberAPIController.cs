@@ -113,7 +113,7 @@ public class VillaNumberAPIController : ControllerBase
             await _villaNumberService.CreateVillaNumber(villaNumberCreate);
             _response.Result = villaNumberCreate;
             _response.StatusCode = HttpStatusCode.Created;
-            return CreatedAtRoute("GetVillaNumber", new { id = villaNumberCreate.VillaNo }, _response);
+            return CreatedAtRoute("GetVillaNumber", new { villaNo = villaNumberCreate.VillaNo }, _response);
         }
         catch(Exception ex)
         {
