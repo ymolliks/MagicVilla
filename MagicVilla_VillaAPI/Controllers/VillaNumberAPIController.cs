@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace MagicVilla_VillaAPI.Controllers;
 
 [ApiController]
-[Route("villanumber")]
+[Route("VillaNumberAPI")]
 public class VillaNumberAPIController : ControllerBase
 {
     protected APIResponse _response;

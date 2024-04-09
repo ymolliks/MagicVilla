@@ -15,7 +15,7 @@ using MagicVilla_VillaAPI.Services;
 namespace MagicVilla_VillaAPI.Controllers;
 
 [ApiController]
-[Route("villa")]
+[Route("VillaAPI")]
 public class VillaAPIController : ControllerBase
 {
     protected APIResponse _response;
