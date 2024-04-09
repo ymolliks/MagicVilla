@@ -26,9 +26,9 @@ public class VillaNumberService : IVillaNumberService
         return _mapper.Map<IEnumerable<VillaNumberDTO>>(villaNumbers);
     }
 
-    public async Task<VillaNumberDTO> GetVillaNumber(int id)
+    public async Task<VillaNumberDTO> GetVillaNumber(int villaNo)
     {
-        var villaNumber = await _villaNumberRepository.GetVillaNumber(id);
+        var villaNumber = await _villaNumberRepository.GetVillaNumber(villaNo);
         return _mapper.Map<VillaNumberDTO>(villaNumber);
     }
 
@@ -41,5 +41,20 @@ public class VillaNumberService : IVillaNumberService
         }
         var villaNumber = _mapper.Map<VillaNumber>(villaNumberCreate);
         await _villaNumberRepository.CreateVillaNumber(villaNumber);
+    }
+
+    public async Task DeleteVillaNumber(int villaNo)
+    {
+        var villaNumber = await _villaNumberRepository.GetVillaNumber(villaNo);
+        if(villaNumber == null)
+        {
+            throw new ArgumentException("VillaNumber does not exist");
+        }
+        await _villaNumberRepository.DeleteVillaNumber(villaNo);
+    }
+
+    public async Task UpdateVillaNumber(UpdateVillaNumberDTO villaNumberUpdate)
+    {
+        _villaNumberRepository.UpdateVillaNumber(_mapper.Map<VillaNumber>(villaNumberUpdate));
     }
 }

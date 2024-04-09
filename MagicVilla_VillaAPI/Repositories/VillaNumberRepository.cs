@@ -20,12 +20,12 @@ public class VillaNumberRepository : IVillaNumberRepository
         return await _db.GetInfoListAsync<VillaNumber>(null, "GetAllVillaNumbers");
     }
 
-    public async Task<VillaNumber> GetVillaNumber(int id)
+    public async Task<VillaNumber> GetVillaNumber(int villaNo)
     {
         return await _db.GetInfoAsync<VillaNumber>(
             new
             {
-                VillaNo = id
+                villaNo
             }, 
             "GetVillaNumber"
         );
@@ -37,11 +37,37 @@ public class VillaNumberRepository : IVillaNumberRepository
             new
             {
                 villaNo = villaNumber.VillaNo,
+                villaId = villaNumber.VillaId,
                 specialDetails = villaNumber.SpecialDetails,
                 createdDate = DateTime.Now,
                 updatedDate = (DateTime?)null
             },
             "CreateVillaNumber"
+        );
+    }
+
+    public async Task DeleteVillaNumber(int villaNo)
+    {
+        await _db.ExecuteNonQueryAsync(
+            new
+            {
+                villaNo
+            },
+            "DeleteVillaNumber"
+        );
+    }
+
+    public async Task UpdateVillaNumber(VillaNumber villaNumber)
+    {
+        await _db.ExecuteNonQueryAsync(
+            new
+            {
+                villaNo = villaNumber.VillaNo,
+                villaId = villaNumber.VillaId,
+                specialDetails = villaNumber.SpecialDetails,
+                updatedDate = DateTime.Now
+            },
+            "UpdateVillaNumber"
         );
     }
 }

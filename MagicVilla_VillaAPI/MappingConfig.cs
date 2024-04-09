@@ -28,5 +28,8 @@ public class MappingConfig : Profile
 
         CreateMap<VillaNumber, CreateVillaNumberDTO>();
         CreateMap<CreateVillaNumberDTO, VillaNumber>();
+
+        CreateMap<VillaNumber, UpdateVillaNumberDTO>();
+        CreateMap<UpdateVillaNumberDTO, VillaNumber>();
     }
 }

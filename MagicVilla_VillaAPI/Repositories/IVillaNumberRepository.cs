@@ -8,6 +8,8 @@ namespace MagicVilla_VillaAPI.Repositories;
 public interface IVillaNumberRepository
 {
     Task<IEnumerable<VillaNumber>> GetAllVillaNumbers();
-    Task<VillaNumber> GetVillaNumber(int id);
+    Task<VillaNumber> GetVillaNumber(int villaNo);
     Task CreateVillaNumber(VillaNumber villaNumber);
+    Task DeleteVillaNumber(int villaNo);
+    Task UpdateVillaNumber(VillaNumber villaNumber);
 }
